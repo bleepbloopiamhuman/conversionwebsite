@@ -1,98 +1,571 @@
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Metric to Imperial Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            width: 300px;
-            margin: auto;
-        }
-        input[type=number] {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        select {
-            width: 100%;
-            padding: 8px;
-            margin: 8px 0;
-            box-sizing: border-box;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-        }
-    </style>
+<title>Metric/Imperial Converter</title>
+<style>
+body {
+    font-family: sans-serif;
+    margin: 20px;
+}
+
+.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="number"], select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Prevents padding from increasing width */
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e8e41;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+</style>
 </head>
 <body>
-    <div class=\"container\">
-        <h2>Metric to Imperial Converter</h2>
 
-        <label for=\"metricValue\">Metric Value:</label>
-        <input type=\"number\" id=\"metricValue\" placeholder=\"Enter value\">
+<div class="container">
+  <h1>Metric/Imperial Converter</h1>
 
-        <label for=\"metricUnit\">Metric Unit:</label>
-        <select id=\"metricUnit\">
-            <option value=\"meters\">Meters</option>
-            <option value=\"kilometers\">Kilometers</option>
-            <option value=\"grams\">Grams</option>
-            <option value=\"kilograms\">Kilograms</option>
-            <option value=\"celsius\">Celsius</option>
-        </select>
+  <label for="amount">Amount:</label>
+  <input type="number" id="amount" value="1">
 
-        <button onclick=\"convert()\">Convert</button>
+  <label for="fromUnit">From:</label>
+  <select id="fromUnit">
+    <!-- Weight -->
+    <option value="kg">Kilograms (kg)</option>
+    <option value="grams">Grams (g)</option>
+    <option value="lbs">Pounds (lbs)</option>
+    <option value="oz">Ounces (oz)</option>
+    <option value="stones">Stones (st)</option>
 
-        <label for=\"imperialValue\">Imperial Value:</label>
-        <input type=\"number\" id=\"imperialValue\" placeholder=\"Result\" readonly>
+    <!-- Length/Distance -->
+    <option value="km">Kilometers (km)</option>
+    <option value="meters">Meters (m)</option>
+    <option value="cm">Centimeters (cm)</option>
+    <option value="mm">Millimeters (mm)</option>
+    <option value="miles">Miles</option>
+    <option value="feet">Feet (ft)</option>
+    <option value="inches">Inches (in)</option>
+    <option value="yards">Yards (yd)</option>
 
-        <label for=\"imperialUnit\">Imperial Unit:</label>
-        <input type=\"text\" id=\"imperialUnit\" placeholder=\"Unit\" readonly>
-    </div>
+    <!-- Volume -->
+    <option value="liters">Liters (L)</option>
+    <option value="ml">Milliliters (mL)</option>
+    <option value="gallons">Gallons (gal)</option>
+    <option value="quarts">Quarts (qt)</option>
+    <option value="pints">Pints (pt)</option>
+    <option value="cups">Cups</option>
+    <option value="fluidOunces">Fluid Ounces (fl oz)</option>
 
-    <script>
-        function convert() {
-            var metricValue = document.getElementById(\"metricValue\").value;
-            var metricUnit = document.getElementById(\"metricUnit\").value;
-            var imperialValue;
-            var imperialUnit;
+    <!-- Temperature -->
+    <option value="celsius">Celsius (°C)</option>
+    <option value="fahrenheit">Fahrenheit (°F)</option>
+    <option value="kelvin">Kelvin (K)</option>
+  </select>
 
-            switch (metricUnit) {
-                case \"meters\":
-                    imperialValue = metricValue * 3.28084;
-                    imperialUnit = \"Feet\";
-                    break;
-                case \"kilometers\":
-                    imperialValue = metricValue * 0.621371;
-                    imperialUnit = \"Miles\";
-                    break;
-                case \"grams\":
-                    imperialValue = metricValue * 0.035274;
-                    imperialUnit = \"Ounces\";
-                    break;
-                case \"kilograms\":
-                    imperialValue = metricValue * 2.20462;
-                    imperialUnit = \"Pounds\";
-                    break;
-                case \"celsius\":
-                    imperialValue = (metricValue * 9/5) + 32;
-                    imperialUnit = \"Fahrenheit\";
-                    break;
-                default:
-                    imperialValue = \"\";
-                    imperialUnit = \"\";
+  <label for="toUnit">To:</label>
+  <select id="toUnit">
+    <!-- Weight -->
+    <option value="kg">Kilograms (kg)</option>
+    <option value="grams">Grams (g)</option>
+    <option value="lbs">Pounds (lbs)</option>
+    <option value="oz">Ounces (oz)</option>
+    <option value="stones">Stones (st)</option>
+
+    <!-- Length/Distance -->
+    <option value="km">Kilometers (km)</option>
+    <option value="meters">Meters (m)</option>
+    <option value="cm">Centimeters (cm)</option>
+    <option value="mm">Millimeters (mm)</option>
+    <option value="miles">Miles</option>
+    <option value="feet">Feet (ft)</option>
+    <option value="inches">Inches (in)</option>
+    <option value="yards">Yards (yd)</option>
+
+    <!-- Volume -->
+    <option value="liters">Liters (L)</option>
+    <option value="ml">Milliliters (mL)</option>
+    <option value="gallons">Gallons (gal)</option>
+    <option value="quarts">Quarts (qt)</option>
+    <option value="pints">Pints (pt)</option>
+    <option value="cups">Cups</option>
+    <option value="fluidOunces">Fluid Ounces (fl oz)</option>
+
+    <!-- Temperature -->
+    <option value="celsius">Celsius (°C)</option>
+    <option value="fahrenheit">Fahrenheit (°F)</option>
+    <option value="kelvin">Kelvin (K)</option>
+  </select>
+
+  <button onclick="convert()">Convert</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function convert() {
+  const amount = parseFloat(document.getElementById("amount").value);
+  const fromUnit = document.getElementById("fromUnit").value;
+  const toUnit = document.getElementById("toUnit").value;
+  let result;
+
+  // Conversion logic (You'll need to add more conversions!)
+  switch (fromUnit) {
+
+    // Weight Conversions
+    case "kg":
+      if (toUnit === "lbs") {
+        result = amount * 2.20462;
+      } else if (toUnit === "grams") {
+        result = amount * 1000;
+      } else if (toUnit === "oz") {
+        result = amount * 35.274;
+      } else if (toUnit === "stones") {
+        result = amount * 0.157473;
+      } else if (toUnit === "kg") {
+        result = amount;
+      } else {
+        result = "Conversion not supported.";
       }
+      break;
+    case "grams":
+      if (toUnit === "kg") {
+        result = amount / 1000;
+      } else if (toUnit === "lbs") {
+        result = amount * 0.00220462;
+      } else if (toUnit === "oz") {
+        result = amount * 0.035274;
+      } else if (toUnit === "stones") {
+        result = amount * 0.000157473;
+      } else if (toUnit === "grams") {
+          result = amount;
+      } else {
+        result = "Conversion not supported.";
+      }
+      break;
+    case "lbs":
+      if (toUnit === "kg") {
+        result = amount / 2.20462;
+      } else if (toUnit === "grams") {
+        result = amount * 453.592;
+      } else if (toUnit === "oz") {
+        result = amount * 16;
+      } else if (toUnit === "stones") {
+        result = amount * 0.0714286;
+      } else if (toUnit === "lbs") {
+          result = amount;
+      } else {
+        result = "Conversion not supported.";
+      }
+      break;
+    case "oz":
+      if (toUnit === "kg") {
+        result = amount / 35.274;
+      } else if (toUnit === "grams") {
+        result = amount * 28.3495;
+      } else if (toUnit === "lbs") {
+        result = amount / 16;
+      } else if (toUnit === "stones") {
+        result = amount * 0.00446429;
+      } else if (toUnit === "oz") {
+          result = amount;
+      } else {
+        result = "Conversion not supported.";
+      }
+      break;
+    case "stones":
+      if (toUnit === "kg") {
+        result = amount / 0.157473;
+      } else if (toUnit === "grams") {
+        result = amount * 6350.29;
+      } else if (toUnit === "lbs") {
+        result = amount * 14;
+      } else if (toUnit === "oz") {
+        result = amount * 224;
+      } else if (toUnit === "stones") {
+          result = amount;
+      } else {
+        result = "Conversion not supported.";
+      }
+      break;
 
-            document.getElementById(\"imperialValue\").value = imperialValue.toFixed(2);
-            document.getElementById(\"imperialUnit\").value = imperialUnit;
+    // Length Conversions
+    case "km":
+        if (toUnit === "miles") {
+            result = amount * 0.621371;
+        } else if (toUnit === "meters") {
+            result = amount * 1000;
+        } else if (toUnit === "cm") {
+            result = amount * 100000;
+        } else if (toUnit === "mm") {
+            result = amount * 1000000;
+        } else if (toUnit === "feet") {
+            result = amount * 3280.84;
+        } else if (toUnit === "inches") {
+            result = amount * 39370.1;
+        } else if (toUnit === "yards") {
+            result = amount * 1093.61;
+        } else if (toUnit === "km") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
         }
-    </script>
+        break;
+    case "miles":
+        if (toUnit === "km") {
+            result = amount / 0.621371;
+        } else if (toUnit === "meters") {
+            result = amount * 1609.34;
+        } else if (toUnit === "cm") {
+            result = amount * 160934;
+        } else if (toUnit === "mm") {
+            result = amount * 1609344;
+        } else if (toUnit === "feet") {
+            result = amount * 5280;
+        } else if (toUnit === "inches") {
+            result = amount * 63360;
+        } else if (toUnit === "yards") {
+            result = amount * 1760;
+        } else if (toUnit === "miles") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "meters":
+        if (toUnit === "feet") {
+            result = amount * 3.28084;
+        } else if (toUnit === "km") {
+            result = amount / 1000;
+        } else if (toUnit === "cm") {
+            result = amount * 100;
+        } else if (toUnit === "mm") {
+            result = amount * 1000;
+        } else if (toUnit === "miles") {
+            result = amount / 1609.34;
+        } else if (toUnit === "inches") {
+            result = amount * 39.3701;
+        } else if (toUnit === "yards") {
+            result = amount * 1.09361;
+        } else if (toUnit === "meters") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "feet":
+        if (toUnit === "meters") {
+            result = amount / 3.28084;
+        } else if (toUnit === "km") {
+            result = amount / 3280.84;
+        } else if (toUnit === "cm") {
+            result = amount * 30.48;
+        } else if (toUnit === "mm") {
+            result = amount * 304.8;
+        } else if (toUnit === "miles") {
+            result = amount / 5280;
+        } else if (toUnit === "inches") {
+            result = amount * 12;
+        } else if (toUnit === "yards") {
+            result = amount / 3;
+        } else if (toUnit === "feet") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "cm":
+        if (toUnit === "inches") {
+            result = amount * 0.393701;
+        } else if (toUnit === "meters") {
+            result = amount / 100;
+        } else if (toUnit === "km") {
+            result = amount / 100000;
+        } else if (toUnit === "mm") {
+            result = amount * 10;
+        } else if (toUnit === "miles") {
+            result = amount / 160934;
+        } else if (toUnit === "feet") {
+            result = amount / 30.48;
+        } else if (toUnit === "yards") {
+            result = amount / 91.44;
+        } else if (toUnit === "cm") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "inches":
+        if (toUnit === "cm") {
+            result = amount / 0.393701;
+        } else if (toUnit === "meters") {
+            result = amount / 39.3701;
+        } else if (toUnit === "km") {
+            result = amount / 39370.1;
+        } else if (toUnit === "mm") {
+            result = amount * 25.4;
+        } else if (toUnit === "miles") {
+            result = amount / 63360;
+        } else if (toUnit === "feet") {
+            result = amount / 12;
+        } else if (toUnit === "yards") {
+            result = amount / 36;
+        } else if (toUnit === "inches") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "mm":
+        if (toUnit === "cm") {
+            result = amount / 10;
+        } else if (toUnit === "meters") {
+            result = amount / 1000;
+        } else if (toUnit === "km") {
+            result = amount / 1000000;
+        } else if (toUnit === "inches") {
+            result = amount / 25.4;
+        } else if (toUnit === "miles") {
+            result = amount / 1609344;
+        } else if (toUnit === "feet") {
+            result = amount / 304.8;
+        } else if (toUnit === "yards") {
+            result = amount / 914.4;
+        } else if (toUnit === "mm") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "yards":
+        if (toUnit === "meters") {
+            result = amount / 1.09361;
+        } else if (toUnit === "km") {
+            result = amount / 1093.61;
+        } else if (toUnit === "cm") {
+            result = amount * 91.44;
+        } else if (toUnit === "mm") {
+            result = amount * 914.4;
+        } else if (toUnit === "miles") {
+            result = amount / 1760;
+        } else if (toUnit === "inches") {
+            result = amount * 36;
+        } else if (toUnit === "feet") {
+            result = amount * 3;
+        } else if (toUnit === "yards") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+
+     //Volume Conversions
+    case "liters":
+          if (toUnit === "gallons") {
+              result = amount * 0.264172;
+          } else if (toUnit === "ml") {
+              result = amount * 1000;
+          } else if (toUnit === "quarts") {
+              result = amount * 1.05669;
+          } else if (toUnit === "pints") {
+              result = amount * 2.11338;
+          } else if (toUnit === "cups") {
+              result = amount * 4.22675;
+          } else if (toUnit === "fluidOunces") {
+              result = amount * 33.814;
+          } else if (toUnit === "liters") {
+              result = amount;
+          } else {
+              result = "Conversion not supported.";
+          }
+          break;
+    case "gallons":
+          if (toUnit === "liters") {
+              result = amount / 0.264172;
+          } else if (toUnit === "ml") {
+              result = amount * 3785.41;
+          } else if (toUnit === "quarts") {
+              result = amount * 4;
+          } else if (toUnit === "pints") {
+              result = amount * 8;
+          } else if (toUnit === "cups") {
+              result = amount * 16;
+          } else if (toUnit === "fluidOunces") {
+              result = amount * 128;
+          } else if (toUnit === "gallons") {
+              result = amount;
+          } else {
+              result = "Conversion not supported.";
+          }
+          break;
+    case "ml":
+          if (toUnit === "liters") {
+              result = amount / 1000;
+          } else if (toUnit === "gallons") {
+              result = amount / 3785.41;
+          } else if (toUnit === "quarts") {
+              result = amount / 946.353;
+          } else if (toUnit === "pints") {
+              result = amount / 473.176;
+          } else if (toUnit === "cups") {
+              result = amount / 236.588;
+          } else if (toUnit === "fluidOunces") {
+              result = amount / 29.5735;
+          } else if (toUnit === "ml") {
+              result = amount;
+          } else {
+              result = "Conversion not supported.";
+          }
+          break;
+    case "quarts":
+        if (toUnit === "liters") {
+            result = amount / 1.05669;
+        } else if (toUnit === "gallons") {
+            result = amount / 4;
+        } else if (toUnit === "ml") {
+            result = amount * 946.353;
+        } else if (toUnit === "pints") {
+            result = amount * 2;
+        } else if (toUnit === "cups") {
+            result = amount * 4;
+        } else if (toUnit === "fluidOunces") {
+            result = amount * 32;
+        } else if (toUnit === "quarts") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "pints":
+        if (toUnit === "liters") {
+            result = amount / 2.11338;
+        } else if (toUnit === "gallons") {
+            result = amount / 8;
+        } else if (toUnit === "ml") {
+            result = amount * 473.176;
+        } else if (toUnit === "quarts") {
+            result = amount / 2;
+        } else if (toUnit === "cups") {
+            result = amount * 2;
+        } else if (toUnit === "fluidOunces") {
+            result = amount * 16;
+        } else if (toUnit === "pints") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "cups":
+        if (toUnit === "liters") {
+            result = amount / 4.22675;
+        } else if (toUnit === "gallons") {
+            result = amount / 16;
+        } else if (toUnit === "ml") {
+            result = amount * 236.588;
+        } else if (toUnit === "quarts") {
+            result = amount / 4;
+        } else if (toUnit === "pints") {
+            result = amount / 2;
+        } else if (toUnit === "fluidOunces") {
+            result = amount * 8;
+        } else if (toUnit === "cups") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "fluidOunces":
+        if (toUnit === "liters") {
+            result = amount / 33.814;
+        } else if (toUnit === "gallons") {
+            result = amount / 128;
+        } else if (toUnit === "ml") {
+            result = amount * 29.5735;
+        } else if (toUnit === "quarts") {
+            result = amount / 32;
+        } else if (toUnit === "pints") {
+            result = amount / 16;
+        } else if (toUnit === "cups") {
+            result = amount / 8;
+        } else if (toUnit === "fluidOunces") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+
+    // Temperature Conversions
+    case "celsius":
+        if (toUnit === "fahrenheit") {
+            result = (amount * 9/5) + 32;
+        } else if (toUnit === "kelvin") {
+            result = amount + 273.15;
+        } else if (toUnit === "celsius") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "fahrenheit":
+        if (toUnit === "celsius") {
+            result = (amount - 32) * 5/9;
+        } else if (toUnit === "kelvin") {
+            result = (amount - 32) * 5/9 + 273.15;
+        } else if (toUnit === "fahrenheit") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    case "kelvin":
+        if (toUnit === "celsius") {
+            result = amount - 273.15;
+        } else if (toUnit === "fahrenheit") {
+            result = (amount - 273.15) * 9/5 + 32;
+        } else if (toUnit === "kelvin") {
+            result = amount;
+        } else {
+            result = "Conversion not supported.";
+        }
+        break;
+    default:
+      result = "Conversion not supported.";
+  }
+
+  document.getElementById("result").innerText = `${amount} ${fromUnit} = ${result} ${toUnit}`;
+}
+</script>
+
 </body>
+</html>
