@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>Metric to Imperial Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            width: 300px;
+            margin: auto;
+        }
+        input[type=number] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class=\"container\">
+        <h2>Metric to Imperial Converter</h2>
+
+        <label for=\"metricValue\">Metric Value:</label>
+        <input type=\"number\" id=\"metricValue\" placeholder=\"Enter value\">
+
+        <label for=\"metricUnit\">Metric Unit:</label>
+        <select id=\"metricUnit\">
+            <option value=\"meters\">Meters</option>
+            <option value=\"kilometers\">Kilometers</option>
+            <option value=\"grams\">Grams</option>
+            <option value=\"kilograms\">Kilograms</option>
+            <option value=\"celsius\">Celsius</option>
+        </select>
+
+        <button onclick=\"convert()\">Convert</button>
+
+        <label for=\"imperialValue\">Imperial Value:</label>
+        <input type=\"number\" id=\"imperialValue\" placeholder=\"Result\" readonly>
+
+        <label for=\"imperialUnit\">Imperial Unit:</label>
+        <input type=\"text\" id=\"imperialUnit\" placeholder=\"Unit\" readonly>
+    </div>
+
+    <script>
+        function convert() {
+            var metricValue = document.getElementById(\"metricValue\").value;
+            var metricUnit = document.getElementById(\"metricUnit\").value;
+            var imperialValue;
+            var imperialUnit;
+
+            switch (metricUnit) {
+                case \"meters\":
+                    imperialValue = metricValue * 3.28084;
+                    imperialUnit = \"Feet\";
+                    break;
+                case \"kilometers\":
+                    imperialValue = metricValue * 0.621371;
+                    imperialUnit = \"Miles\";
+                    break;
+                case \"grams\":
+                    imperialValue = metricValue * 0.035274;
+                    imperialUnit = \"Ounces\";
+                    break;
+                case \"kilograms\":
+                    imperialValue = metricValue * 2.20462;
+                    imperialUnit = \"Pounds\";
+                    break;
+                case \"celsius\":
+                    imperialValue = (metricValue * 9/5) + 32;
+                    imperialUnit = \"Fahrenheit\";
+                    break;
+                default:
+                    imperialValue = \"\";
+                    imperialUnit = \"\";
+      }
+
+            document.getElementById(\"imperialValue\").value = imperialValue.toFixed(2);
+            document.getElementById(\"imperialUnit\").value = imperialUnit;
+        }
+    </script>
+</body>
